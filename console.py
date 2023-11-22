@@ -50,14 +50,40 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        elif arg not in classes:
+
+        args_list = arg.split(" ")
+        class_name = args_list[0]
+
+        if class_name not in classes:
             print("** class doesn't exist **")
             return
-        new_instance = classes[arg]()
+
+        args_list = args_list[1:]
+
+        params = {}
+        for param in args_list:
+            key, value = param.split("=")
+            if value.startswith('"') and value.endswith('"'):
+                value = value.replace("_", " ")
+                value = value[1:-1].replace('\\"', '"')
+                params[key] = value
+            elif "." in value:
+                params[key] = float(value)
+            else:
+                params[key] = int(value)
+        if params == {}:
+            ins = eval(class_name)()
+        else:
+            ins = eval(class_name)(**params)
+            storage.new(ins)
+        print(ins.id)
+        ins.save()
+        """
+        new_instance = classes[class_name](**params)
         new_instance.save()
         print(new_instance.id)
         storage.save()
-        """
+
         try:
             new_instance = BaseModel()
             new_instance.save()
