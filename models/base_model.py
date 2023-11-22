@@ -50,7 +50,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            #storage.new(self)  # New element
+            # storage.new(self)  # New element
         """
         self.id = str(uuid.uuid4())
         self.created_at = datetime.utcnow()
@@ -76,9 +76,6 @@ class BaseModel:
         self.updated_at = datetime.now()
         models.storage.new(self)
         storage.save()
-        # self.updated_at = datetime.now()
-        # models.storage.new(self)
-        # models.storage.save()
 
     def __str__(self):
         """

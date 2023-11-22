@@ -10,11 +10,7 @@ class Review(BaseModel):
     """
     This is Review class that inherets from BaseModel
     """
-    place_id = ""
-    user_id = ""
-    text = ""
 
-    """
     __tablename__ = 'reviews'
 
     place_id = Column(String(60), ForeignKey('places.id'), nullable=False)

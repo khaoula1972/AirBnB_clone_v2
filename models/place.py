@@ -2,38 +2,27 @@
 """
 This conatins the class place
 """
-from models.base_model import BaseModel
-# from models.amenity import Amenity
-# from models.review import Review
-# from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey
+from models.base_model import BaseModel, Base
+from models.amenity import Amenity
+from models.review import Review
+from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey
 
 # Define the association table
-"""association_table = Table('place_amenity', Base.metadata,
+association_table = Table('place_amenity', Base.metadata,
         Column('place_id', String(60),
             ForeignKey('places.id'), nullable=False,
             primary_key=True),
         Column('amenity_id', String(60),
             ForeignKey('amenities.id'), nullable=False,
-            primary_key=True) """
+            primary_key=True)
 
 
-class Place(BaseModel):
-    city_id = ""
-    user_id = ""
-    name = ""
-    description = ""
-    number_rooms = 0
-    number_bathrooms = 0
-    max_guest = 0
-    price_by_night = 0
-    latitude = 0.0
-    longitude = 0.0
-    amenity_ids = []
+class Place(BaseModel, Base):
     """
     This is Place class that inherets from BaseModel
     """
 
-    """__tablename__ = 'places'
+    __tablename__ = 'places'
 
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -51,9 +40,9 @@ class Place(BaseModel):
     reviews = relationship("Review", cascade="delete", backref="place")
     amenities = relationship("Amenity",
         secondary=association_table,
-        back_populates="place_amenities", viewonly=False) """
+        back_populates="place_amenities", viewonly=False)
 
-    """if getenv("HBNB_TYPE_STORAGE", None) != "db":
+    if getenv("HBNB_TYPE_STORAGE", None) != "db":
         @property
         def reviews(self):
             Getter attribute that returns the list of Review instances
@@ -75,4 +64,4 @@ class Place(BaseModel):
         def amenities(self, ameni_ty):
             Setter attribute for amenities in FileStorage
             if isinstance(ameni_ty, Amenity):
-                self.amenity_ids.append(ameni_ty.id)"""
+                self.amenity_ids.append(ameni_ty.id)
