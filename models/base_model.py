@@ -3,13 +3,13 @@
 This conatins a class calle Basemodel
 """
 import uuid
-# import models
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy import DateTime
+import models
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import DateTime
 from datetime import datetime
-# from sqlalchemy import Column, String
+from sqlalchemy import Column, String
 
-# Base = declarative_base()
+Base = declarative_base()
 
 
 class BaseModel:
@@ -17,10 +17,9 @@ class BaseModel:
     This is a class that defines all common attributes/methods
     for other classes.
     """
-    """
     id = Column(String(60), nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())"""
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """
@@ -51,7 +50,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)  # New element
+            #storage.new(self)  # New element
         """
         self.id = str(uuid.uuid4())
         self.created_at = datetime.utcnow()
@@ -75,6 +74,7 @@ class BaseModel:
         from models import storage
 
         self.updated_at = datetime.now()
+        models.storage.new(self)
         storage.save()
         # self.updated_at = datetime.now()
         # models.storage.new(self)
@@ -105,6 +105,7 @@ class BaseModel:
         obj_dict["__class__"] = class_name
         obj_dict["created_at"] = self.created_at.isoformat()
         obj_dict["updated_at"] = self.updated_at.isoformat()
+        obj_dict.pop("_sa_instance_state", None)
         return obj_dict
         """
         obj_dict = self.__dict__.copy()
