@@ -48,7 +48,6 @@ class HBNBCommand(cmd.Cmd):
         """
         To create a new instance
         """
-
         if not arg:
             print("** class name missing **")
             return
@@ -82,43 +81,6 @@ class HBNBCommand(cmd.Cmd):
         storage.new(instance)
         storage.save()
         print(instance.id)
-        """
-        classes = {
-                "BaseModel": BaseModel, "User": User,
-                "State": State, "City": City, "Amenity": Amenity,
-                "Place": Place, "Review": Review
-                }"""
-        """
-        if not arg:
-            print("** class name missing **")
-            return
-
-        args_list = arg.split(" ")
-        class_name = args_list[0]
-
-        if class_name not in classes:
-            print("** class doesn't exist **")
-            return
-        args_list = args_list[1:]
-
-        params = {}
-        for param in args_list:
-            key, value = param.split("=")
-            if value.startswith('"') and value.endswith('"'):
-                value = value.replace("_", " ")
-                value = value[1:-1].replace('\\"', '"')
-                params[key] = value
-            elif "." in value:
-                params[key] = float(value)
-            else:
-                params[key] = int(value)
-        if params == {}:
-            ins = eval(class_name)()
-        else:
-            ins = eval(class_name)(**params)
-            storage.new(ins)
-        print(ins.id)
-        ins.save() """
 
     def do_show(self, line):
         """Prints the string representation of an instance
