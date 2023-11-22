@@ -13,8 +13,6 @@ class State(BaseModel, Base):
     This is State class that inherets from BaseModel
     """
 
-    # name = ""
-    
     __tablename__ = 'states'
 
     name = Column(String(128), nullable=False)
