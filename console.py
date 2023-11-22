@@ -20,6 +20,12 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
+    classes = {
+        "BaseModel": BaseModel, "User": User,
+        "State": State, "City": City, "Amenity": Amenity,
+        "Place": Place, "Review": Review
+    }
+
     def do_quit(self, arg):
         """
         To exist the program
@@ -42,11 +48,47 @@ class HBNBCommand(cmd.Cmd):
         """
         To create a new instance
         """
+
+        if not arg:
+            print("** class name missing **")
+            return
+
+        args_list = arg.split(" ")
+        class_name = args_list[0]
+
+        if class_name not in self.classes:
+            print("** class doesn't exist **")
+            return
+
+        args_list = args_list[1:]
+
+        params = {}
+        for param in args_list:
+            key_value = param.split("=")
+            if len(key_value) == 2:
+                key, value = key_value
+                if value.startswith('"') and value.endswith('"'):
+                    value = value[1:-1].replace('\\"', '"').replace("_", " ")
+                elif "." in value:
+                    value = float(value)
+                else:
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        continue
+                params[key] = value
+
+        instance = self.classes[class_name](**params)
+        storage.new(instance)
+        storage.save()
+        print(instance.id)
+        """
         classes = {
                 "BaseModel": BaseModel, "User": User,
                 "State": State, "City": City, "Amenity": Amenity,
                 "Place": Place, "Review": Review
-                }
+                }"""
+        """
         if not arg:
             print("** class name missing **")
             return
@@ -57,7 +99,6 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in classes:
             print("** class doesn't exist **")
             return
-
         args_list = args_list[1:]
 
         params = {}
@@ -77,7 +118,38 @@ class HBNBCommand(cmd.Cmd):
             ins = eval(class_name)(**params)
             storage.new(ins)
         print(ins.id)
-        ins.save()
+        ins.save() """
+
+    def do_show(self, line):
+        """Prints the string representation of an instance
+        Exceptions:
+            SyntaxError: when there is no args given
+            NameError: when there is no object taht has the name
+            IndexError: when there is no id given
+            KeyError: when there is no valid id given
+        """
+        try:
+            if not line:
+                raise SyntaxError()
+            my_list = line.split(" ")
+            if my_list[0] not in self.__classes:
+                raise NameError()
+            if len(my_list) < 2:
+                raise IndexError()
+            objects = storage.all()
+            key = my_list[0] + '.' + my_list[1]
+            if key in objects:
+                print(objects[key])
+            else:
+                raise KeyError()
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
+        except IndexError:
+            print("** instance id missing **")
+        except KeyError:
+            print("** no instance found **")
 
     def do_show(self, arg):
         """
