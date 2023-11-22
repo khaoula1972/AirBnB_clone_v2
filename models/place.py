@@ -45,7 +45,7 @@ class Place(BaseModel, Base):
     if getenv("HBNB_TYPE_STORAGE", None) != "db":
         @property
         def reviews(self):
-            Getter attribute that returns the list of Review instances
+            """Getter attribute that returns the list of Review instances"""
 
             from models import storage
             reviews_list = []
@@ -56,12 +56,12 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            Getter attribute for amenities in FileStorage
+            """Getter attribute for amenities in FileStorage"""
             return [model.amenities.get(amenity_id) for amenity_id in
             self.amenity_ids]
 
         @amenities.setter
         def amenities(self, ameni_ty):
-            Setter attribute for amenities in FileStorage
+            """Setter attribute for amenities in FileStorage"""
             if isinstance(ameni_ty, Amenity):
                 self.amenity_ids.append(ameni_ty.id)
