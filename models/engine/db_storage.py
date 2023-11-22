@@ -14,6 +14,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 import os
 from models.base_model import Base
 
+
 class DBStorage:
     __engine = None
     __session = None
@@ -21,16 +22,17 @@ class DBStorage:
     def __init__(self):
         """
         Create the engine (self.__engine)
-        The engine must be linked to the MySQL database and user created before:
+        The engine must be linked to the MySQL database and user
+        created before:
         dialect: mysql
         driver: mysqldb
         """
         self.__engine = create_engine(
                 'mysql+mysqldb://{}:{}@{}/{}'
                 .format(os.getenv('HBNB_MYSQL_USER'),
-                    os.getenv('HBNB_MYSQL_PWD'),
-                    os.getenv('HBNB_MYSQL_HOST'),
-                    os.getenv('HBNB_MYSQL_DB')),
+                        os.getenv('HBNB_MYSQL_PWD'),
+                        os.getenv('HBNB_MYSQL_HOST'),
+                        os.getenv('HBNB_MYSQL_DB')),
                 pool_pre_ping=True)
 
         if os.getenv('HBNB_ENV') == 'test':
@@ -49,7 +51,7 @@ class DBStorage:
             objs.extend(self.__session.query(Review).all())
             objs.extend(self.__session.query(Amenity).all())
         else:
-            if type(cls) == str:
+            if type(cls) is str:
                 cls = eval(cls)
             objs = self.__session.query(cls)
         return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
