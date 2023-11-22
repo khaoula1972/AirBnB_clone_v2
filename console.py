@@ -78,19 +78,6 @@ class HBNBCommand(cmd.Cmd):
             storage.new(ins)
         print(ins.id)
         ins.save()
-        """
-        new_instance = classes[class_name](**params)
-        new_instance.save()
-        print(new_instance.id)
-        storage.save()
-
-        try:
-            new_instance = BaseModel()
-            new_instance.save()
-            print(new_instance.id)
-        except ImportError:
-            print("** class doesn't exist **")
-        """
 
     def do_show(self, arg):
         """
@@ -137,10 +124,10 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         key = args[0] + "." + args[1]
-        objects = storage.all()
+        objects = models.storage.all()
         if key in objects:
             del objects[key]
-            storage.save()
+            models.storage.save()
         else:
             print("** no instance found **")
 
@@ -154,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
                 "Amenity", "Place", "Review"
                 ]
         args = arg.split()
-        objects = storage.all()
+        objects = models.storage.all()
         everyting = []
 
         if not arg:
@@ -189,7 +176,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         key = args[0] + "." + args[1]
-        objects = storage.all()
+        objects = models.storage.all()
         if key not in objects:
             print("** no instance found **")
             return
