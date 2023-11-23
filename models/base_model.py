@@ -56,7 +56,7 @@ class BaseModel:
         with the current datetime
         """
         models.storage.new(self)
-        storage.save()
+        models.storage.save()
 
     def __str__(self):
         """

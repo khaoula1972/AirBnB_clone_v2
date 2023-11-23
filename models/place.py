@@ -5,16 +5,20 @@ This conatins the class place
 from models.base_model import BaseModel, Base
 from models.amenity import Amenity
 from models.review import Review
+from sqlalchemy.orm import relationship
+from os import getenv
 from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey
 
 # Define the association table
+
 association_table = Table('place_amenity', Base.metadata,
-        Column('place_id', String(60),
-            ForeignKey('places.id'), nullable=False,
-            primary_key=True),
-        Column('amenity_id', String(60),
-            ForeignKey('amenities.id'), nullable=False,
-            primary_key=True)
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'), nullable=False,
+                                 primary_key=True),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'), nullable=False,
+                                 primary_key=True)
+                          )
 
 
 class Place(BaseModel, Base):
@@ -39,8 +43,8 @@ class Place(BaseModel, Base):
 
     reviews = relationship("Review", cascade="delete", backref="place")
     amenities = relationship("Amenity",
-        secondary=association_table,
-        back_populates="place_amenities", viewonly=False)
+                             secondary=association_table,
+                             back_populates="place_amenities", viewonly=False)
 
     if getenv("HBNB_TYPE_STORAGE", None) != "db":
         @property
@@ -58,7 +62,7 @@ class Place(BaseModel, Base):
         def amenities(self):
             """Getter attribute for amenities in FileStorage"""
             return [model.amenities.get(amenity_id) for amenity_id in
-            self.amenity_ids]
+                    self.amenity_ids]
 
         @amenities.setter
         def amenities(self, ameni_ty):
